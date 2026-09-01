@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ProbModelXML formatVersion="0.2.0">
+  <ProbNet type="BayesianNetwork">
+    <DecisionCriteria>
+      <Criterion name="---" unit="---" />
+    </DecisionCriteria>
+    <AdditionalProperties>
+      <Property name="hasElviraProperties" value="yes" />
+    </AdditionalProperties>
+    <Variables>
+      <Variable name="Shape" type="finiteStates" role="chance">
+        <Coordinates x="184" y="147" />
+        <States>
+          <State name="irregular" />
+          <State name="round" />
+          <State name="oval" />
+        </States>
+      </Variable>
+      <Variable name="Margin" type="finiteStates" role="chance">
+        <Coordinates x="784" y="290" />
+        <States>
+          <State name="spiculated" />
+          <State name="angulated" />
+          <State name="indistinct" />
+          <State name="microlobulated" />
+          <State name="circumscribed" />
+        </States>
+      </Variable>
+      <Variable name="Orientation" type="finiteStates" role="chance">
+        <Coordinates x="215" y="286" />
+        <States>
+          <State name="not parallel" />
+          <State name="no orientation" />
+          <State name="parallel" />
+        </States>
+      </Variable>
+      <Variable name="Echogenicity" type="finiteStates" role="chance">
+        <Coordinates x="396" y="521" />
+        <States>
+          <State name="heterogeneous" />
+          <State name="hypoechoic" />
+          <State name="hyperechoic" />
+          <State name="isoechoic" />
+          <State name="anechoic" />
+        </States>
+      </Variable>
+      <Variable name="Posterior" type="finiteStates" role="chance">
+        <Coordinates x="613" y="424" />
+        <States>
+          <State name="shadowing" />
+          <State name="combined pattern" />
+          <State name="no features" />
+          <State name="enhancement" />
+        </States>
+      </Variable>
+      <Variable name="Calcifications" type="finiteStates" role="chance">
+        <Coordinates x="279" y="401" />
+        <States>
+          <State name="calcifications" />
+          <State name="no determined" />
+          <State name="no calcifications" />
+        </States>
+      </Variable>
+      <Variable name="Special cases" type="finiteStates" role="chance">
+        <Coordinates x="772" y="121" />
+        <States>
+          <State name="other" />
+          <State name="complicated cyst" />
+          <State name="clustered microcysts" />
+          <State name="simple cyst" />
+        </States>
+      </Variable>
+      <Variable name="BIRADS" type="finiteStates" role="chance">
+        <Coordinates x="484" y="110" />
+        <States>
+          <State name="5" />
+          <State name="4C" />
+          <State name="4B" />
+          <State name="4A" />
+          <State name="3" />
+          <State name="2" />
+        </States>
+      </Variable>
+    </Variables>
+    <Links>
+      <Link directed="true">
+        <Variable name="Shape" />
+        <Variable name="Orientation" />
+      </Link>
+      <Link directed="true">
+        <Variable name="BIRADS" />
+        <Variable name="Shape" />
+      </Link>
+      <Link directed="true">
+        <Variable name="BIRADS" />
+        <Variable name="Margin" />
+      </Link>
+      <Link directed="true">
+        <Variable name="BIRADS" />
+        <Variable name="Orientation" />
+      </Link>
+      <Link directed="true">
+        <Variable name="BIRADS" />
+        <Variable name="Echogenicity" />
+      </Link>
+      <Link directed="true">
+        <Variable name="BIRADS" />
+        <Variable name="Posterior" />
+      </Link>
+      <Link directed="true">
+        <Variable name="BIRADS" />
+        <Variable name="Calcifications" />
+      </Link>
+      <Link directed="true">
+        <Variable name="BIRADS" />
+        <Variable name="Special cases" />
+      </Link>
+    </Links>
+    <Potentials>
+      <Potential type="Table" role="conditionalProbability">
+        <Variables>
+          <Variable name="Shape" />
+          <Variable name="BIRADS" />
+        </Variables>
+        <Values>0.9849056603773585 0.011320754716981131 0.0037735849056603774 0.9596977329974811 0.017632241813602016 0.022670025188916875 0.6370106761565836 0.09608540925266904 0.2669039145907473 0.0684326710816777 0.12141280353200883 0.8101545253863135 0.006622516556291391 0.0684326710816777 0.9249448123620309 0.0018832391713747645 0.16760828625235405 0.8305084745762712</Values>
+      </Potential>
+      <Potential type="Table" role="conditionalProbability">
+        <Variables>
+          <Variable name="Margin" />
+          <Variable name="BIRADS" />
+        </Variables>
+        <Values>0.4606741573033708 0.08614232209737828 0.40074906367041196 0.04868913857677903 0.003745318352059925 0.047619047619047616 0.13784461152882205 0.5739348370927319 0.23809523809523808 0.002506265664160401 0.0035335689045936395 0.045936395759717315 0.6607773851590106 0.1872791519434629 0.10247349823321555 0.002197802197802198 0.024175824175824177 0.12967032967032968 0.05934065934065934 0.7846153846153846 0.002197802197802198 0.002197802197802198 0.006593406593406593 0.002197802197802198 0.9868131868131869 0.001876172607879925 0.001876172607879925 0.001876172607879925 0.001876172607879925 0.9924953095684803</Values>
+      </Potential>
+      <Potential type="Table" role="conditionalProbability">
+        <Variables>
+          <Variable name="Orientation" />
+          <Variable name="Shape" />
+          <Variable name="BIRADS" />
+        </Variables>
+        <Values>0.6045627376425855 0.049429657794676805 0.34600760456273766 0.2 0.6 0.2 0.3333333333333333 0.3333333333333333 0.3333333333333333 0.3263707571801567 0.08093994778067885 0.5926892950391645 0.1111111111111111 0.7777777777777778 0.1111111111111111 0.09090909090909091 0.09090909090909091 0.8181818181818182 0.11602209944751381 0.11602209944751381 0.7679558011049724 0.034482758620689655 0.9310344827586207 0.034482758620689655 0.03896103896103896 0.06493506493506493 0.8961038961038961 0.2727272727272727 0.030303030303030304 0.696969696969697 0.017543859649122806 0.9649122807017544 0.017543859649122806 0.04065040650406504 0.008130081300813009 0.9512195121951219 0.6 0.2 0.2 0.15151515151515152 0.8181818181818182 0.030303030303030304 0.011876484560570071 0.0023752969121140144 0.9857482185273159 0.3333333333333333 0.3333333333333333 0.3333333333333333 0.03296703296703297 0.9120879120879121 0.054945054945054944 0.033860045146726865 0.006772009029345372 0.9593679458239278</Values>
+      </Potential>
+      <Potential type="Table" role="conditionalProbability">
+        <Variables>
+          <Variable name="Echogenicity" />
+          <Variable name="BIRADS" />
+        </Variables>
+        <Values>0.2209737827715356 0.7677902621722846 0.003745318352059925 0.003745318352059925 0.003745318352059925 0.3634085213032581 0.6190476190476191 0.007518796992481203 0.007518796992481203 0.002506265664160401 0.4911660777385159 0.4840989399293286 0.0035335689045936395 0.0176678445229682 0.0035335689045936395 0.45054945054945056 0.5076923076923077 0.006593406593406593 0.02857142857142857 0.006593406593406593 0.0989010989010989 0.7714285714285715 0.01098901098901099 0.10329670329670329 0.015384615384615385 0.009380863039399626 0.020637898686679174 0.001876172607879925 0.016885553470919325 0.9512195121951219</Values>
+      </Potential>
+      <Potential type="Table" role="conditionalProbability">
+        <Variables>
+          <Variable name="Posterior" />
+          <Variable name="BIRADS" />
+        </Variables>
+        <Values>0.8383458646616542 0.0037593984962406013 0.08646616541353383 0.07142857142857142 0.29396984924623115 0.04271356783919598 0.3391959798994975 0.3241206030150754 0.12411347517730496 0.01773049645390071 0.32978723404255317 0.5283687943262412 0.04185022026431718 0.011013215859030838 0.30176211453744495 0.6453744493392071 0.028634361233480177 0.011013215859030838 0.473568281938326 0.486784140969163 0.005639097744360902 0.0018796992481203006 0.11090225563909774 0.881578947368421</Values>
+      </Potential>
+      <Potential type="Table" role="conditionalProbability">
+        <Variables>
+          <Variable name="Calcifications" />
+          <Variable name="BIRADS" />
+        </Variables>
+        <Values>0.04778012684989429 0.26257928118393237 0.6896405919661733 0.04778012684989429 0.26257928118393237 0.6896405919661733 0.04778012684989429 0.26257928118393237 0.6896405919661733 0.04778012684989429 0.26257928118393237 0.6896405919661733 0.04778012684989429 0.26257928118393237 0.6896405919661733 0.04778012684989429 0.26257928118393237 0.6896405919661733</Values>
+      </Potential>
+      <Potential type="Table" role="conditionalProbability">
+        <Variables>
+          <Variable name="Special cases" />
+          <Variable name="BIRADS" />
+        </Variables>
+        <Values>0.9887218045112782 0.0037593984962406013 0.0037593984962406013 0.0037593984962406013 0.992462311557789 0.002512562814070352 0.002512562814070352 0.002512562814070352 0.9893617021276596 0.0035460992907801418 0.0035460992907801418 0.0035460992907801418 0.8171806167400881 0.17841409691629956 0.0022026431718061676 0.0022026431718061676 0.8788546255506607 0.10352422907488987 0.006607929515418502 0.011013215859030838 0.046992481203007516 0.0018796992481203006 0.03571428571428571 0.9154135338345865</Values>
+      </Potential>
+      <Potential type="Uniform" role="conditionalProbability">
+        <Variables>
+          <Variable name="BIRADS" />
+        </Variables>
+      </Potential>
+    </Potentials>
+  </ProbNet>
+  <InferenceOptions>
+    <MulticriteriaOptions>
+      <SelectedAnalysisType>UNICRITERION</SelectedAnalysisType>
+      <Unicriterion>
+        <Scales>
+          <Scale Criterion="---" Value="1.0" />
+        </Scales>
+      </Unicriterion>
+      <CostEffectiveness>
+        <Scales>
+          <Scale Criterion="---" Value="1.0" />
+        </Scales>
+        <CE_Criteria>
+          <CE_Criterion Criterion="---" Value="Cost" />
+        </CE_Criteria>
+      </CostEffectiveness>
+    </MulticriteriaOptions>
+  </InferenceOptions>
+</ProbModelXML>
