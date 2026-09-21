@@ -248,6 +248,105 @@ def print_prediction(probabilities):
         f"\nPredicted BI-RADS: {predicted_birads}"
     )
 
+from itertools import product
+import numpy as np
+
+
+def predict_birads_partial(case, model):
+    """
+    Calcula P(BIRADS | evidencia) permitiendo que falten descriptores.
+
+    Los descriptores ausentes se marginalizan sumando sobre
+    todos sus posibles estados.
+    """
+
+    # Comprobar que no haya columnas desconocidas
+    unexpected = set(case.keys()) - set(DESCRIPTOR_VALUES.keys())
+
+    if unexpected:
+        raise ValueError(
+            f"Unexpected descriptors: {sorted(unexpected)}"
+        )
+
+    # Validar únicamente los descriptores presentes
+    for descriptor, value in case.items():
+
+        valid_values = DESCRIPTOR_VALUES[descriptor]
+
+        if value not in valid_values:
+            raise ValueError(
+                f"Invalid value '{value}' for '{descriptor}'. "
+                f"Valid values are: {valid_values}"
+            )
+
+    # Codificar evidencia disponible
+    encoded_case = {
+        descriptor: DESCRIPTOR_VALUES[descriptor].index(value)
+        for descriptor, value in case.items()
+    }
+
+    # Qué descriptores faltan
+    missing_descriptors = [
+        descriptor
+        for descriptor in DESCRIPTOR_VALUES
+        if descriptor not in case
+    ]
+
+    # Estados posibles de cada descriptor ausente
+    missing_states = [
+        range(len(DESCRIPTOR_VALUES[descriptor]))
+        for descriptor in missing_descriptors
+    ]
+
+    joint_probabilities = []
+
+    # Para cada posible BI-RADS
+    for birads_state in range(len(BIRADS_VALUES)):
+
+        probability_birads = 0.0
+
+        # Marginalizar variables que faltan
+        for states in product(*missing_states):
+
+            complete_state = dict(encoded_case)
+
+            for descriptor, state in zip(
+                missing_descriptors,
+                states
+            ):
+                complete_state[descriptor] = state
+
+            complete_state["BIRADS"] = birads_state
+
+            probability_birads += model.get_state_probability(
+                complete_state
+            )
+
+        joint_probabilities.append(probability_birads)
+
+    joint_probabilities = np.asarray(
+        joint_probabilities,
+        dtype=float
+    )
+
+    total_probability = joint_probabilities.sum()
+
+    if total_probability == 0:
+        raise ValueError(
+            "The model assigned zero probability "
+            "to the provided evidence."
+        )
+
+    posterior_probabilities = (
+        joint_probabilities / total_probability
+    )
+
+    return dict(
+        zip(
+            BIRADS_VALUES,
+            posterior_probabilities
+        )
+    )
 
 # =============================================================================
 # Example
